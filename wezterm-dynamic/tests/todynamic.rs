@@ -1,3 +1,5 @@
+#![allow(clippy::disallowed_names)]
+
 use maplit::btreemap;
 use ordered_float::OrderedFloat;
 use wezterm_dynamic::{ToDynamic, Value};
@@ -184,9 +186,9 @@ struct StructInto {
     age: u8,
 }
 
-impl Into<String> for &StructInto {
-    fn into(self) -> String {
-        format!("age:{}", self.age)
+impl From<&StructInto> for String {
+    fn from(val: &StructInto) -> Self {
+        format!("age:{}", val.age)
     }
 }
 
@@ -204,9 +206,9 @@ enum EnumInto {
     Age(u8),
 }
 
-impl Into<String> for &EnumInto {
-    fn into(self) -> String {
-        match self {
+impl From<&EnumInto> for String {
+    fn from(val: &EnumInto) -> Self {
+        match val {
             EnumInto::Age(age) => format!("age:{}", age),
         }
     }

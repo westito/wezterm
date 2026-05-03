@@ -1293,7 +1293,7 @@ impl TerminalState {
                 ident.push_str(";52"); // Clipboard access
                 ident.push('c');
 
-                self.writer.write(ident.as_bytes()).ok();
+                self.writer.write_all(ident.as_bytes()).ok();
                 self.writer.flush().ok();
             }
             Device::RequestSecondaryDeviceAttributes => {
@@ -1308,19 +1308,19 @@ impl TerminalState {
                 // pv >= 95 < 277 -> ttymouse=xterm2
                 // pv >= 277 -> ttymouse=sgr
                 // pv >= 279 - xterm will probe for additional device settings.
-                self.writer.write(b"\x1b[>1;277;0c").ok();
+                self.writer.write_all(b"\x1b[>1;277;0c").ok();
                 self.writer.flush().ok();
             }
             Device::RequestTertiaryDeviceAttributes => {
                 self.writer
-                    .write(format!("\x1bP!|00000000{}", ST).as_bytes())
+                    .write_all(format!("\x1bP!|00000000{}", ST).as_bytes())
                     .ok();
                 self.writer.flush().ok();
             }
             Device::RequestTerminalNameAndVersion => {
-                self.writer.write(DCS.as_bytes()).ok();
+                self.writer.write_all(DCS.as_bytes()).ok();
                 self.writer
-                    .write(
+                    .write_all(
                         format!(">|{} {}{}", self.term_program, self.term_version, ST).as_bytes(),
                     )
                     .ok();
@@ -1328,12 +1328,12 @@ impl TerminalState {
             }
             Device::RequestTerminalParameters(a) => {
                 self.writer
-                    .write(format!("\x1b[{};1;1;128;128;1;0x", a + 2).as_bytes())
+                    .write_all(format!("\x1b[{};1;1;128;128;1;0x", a + 2).as_bytes())
                     .ok();
                 self.writer.flush().ok();
             }
             Device::StatusReport => {
-                self.writer.write(b"\x1b[0n").ok();
+                self.writer.write_all(b"\x1b[0n").ok();
                 self.writer.flush().ok();
             }
             Device::XtSmGraphics(g) => {

@@ -175,6 +175,8 @@ pub trait IntoRawFileDescriptor {
 /// to indicate that care must be taken by the caller to ensure that it
 /// is used appropriately.
 pub trait FromRawFileDescriptor {
+    /// # Safety
+    /// The caller must ensure the file descriptor is valid and ownership is transferred.
     unsafe fn from_raw_file_descriptor(fd: RawFileDescriptor) -> Self;
 }
 
@@ -185,6 +187,8 @@ pub trait IntoRawSocketDescriptor {
     fn into_socket_descriptor(self) -> SocketDescriptor;
 }
 pub trait FromRawSocketDescriptor {
+    /// # Safety
+    /// The caller must ensure the socket descriptor is valid and ownership is transferred.
     unsafe fn from_socket_descriptor(fd: SocketDescriptor) -> Self;
 }
 
@@ -216,8 +220,10 @@ impl OwnedHandle {
     /// potentially fallible operation.
     /// The returned handle has a separate lifetime from the source, but
     /// references the same object at the kernel level.
+    #[allow(clippy::let_unit_value)]
     pub fn try_clone(&self) -> Result<Self> {
-        Self::dup_impl(self, self.handle_type)
+        let _ = self.handle_type;
+        Self::dup_impl(self, ())
     }
 
     /// Attempt to duplicate the underlying handle from an object that is
@@ -228,7 +234,7 @@ impl OwnedHandle {
     /// The returned handle has a separate lifetime from the source, but
     /// references the same object at the kernel level.
     pub fn dup<F: AsRawFileDescriptor>(f: &F) -> Result<Self> {
-        Self::dup_impl(f, Default::default())
+        Self::dup_impl(f, ())
     }
 }
 

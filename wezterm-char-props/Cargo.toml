@@ -26,4 +26,5 @@ k9.workspace = true
 [[bench]]
 name = "wcwidth"
 harness = false
+required-features = ["criterion-benches"]
 

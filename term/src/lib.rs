@@ -15,6 +15,31 @@
 //!
 //! The entrypoint to the crate is the [Terminal](terminal/struct.Terminal.html)
 //! struct.
+#![allow(clippy::match_like_matches_macro)]
+#![allow(clippy::non_canonical_partial_ord_impl)]
+#![allow(clippy::upper_case_acronyms)]
+#![allow(clippy::manual_find)]
+#![allow(clippy::unwrap_or_default)]
+#![allow(clippy::unnecessary_cast)]
+#![allow(clippy::manual_map)]
+#![allow(clippy::needless_borrows_for_generic_args)]
+#![allow(clippy::match_ref_pats)]
+#![allow(clippy::len_zero)]
+#![allow(clippy::unneeded_struct_pattern)]
+#![allow(clippy::get_first)]
+#![allow(clippy::explicit_counter_loop)]
+#![allow(clippy::useless_conversion)]
+#![allow(clippy::boxed_local)]
+#![allow(clippy::unnecessary_min_or_max)]
+#![allow(clippy::manual_unwrap_or_default)]
+#![allow(clippy::map_clone)]
+#![allow(clippy::needless_borrow)]
+#![allow(clippy::single_match)]
+#![allow(clippy::result_large_err)]
+#![allow(clippy::unnecessary_sort_by)]
+#![allow(clippy::drop_non_drop)]
+#![allow(clippy::manual_unwrap_or)]
+
 use anyhow::Error;
 #[cfg(feature = "use_serde")]
 use serde::{Deserialize, Serialize};
