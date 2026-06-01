@@ -71,6 +71,14 @@ pub enum Alert {
     OutputSinceFocusLost,
     /// A change to the progress bar state
     Progress(Progress),
+    /// OSC 133;C — shell integration reported the end of user input and the
+    /// start of command output (a command began executing).
+    ShellIntegrationCommandStarted,
+    /// OSC 133;D;<status> — shell integration reported the running command
+    /// finished, carrying its exit status.
+    ShellIntegrationCommandFinished {
+        status: i32,
+    },
 }
 
 pub trait AlertHandler: Send + Sync {

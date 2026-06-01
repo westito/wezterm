@@ -895,11 +895,18 @@ impl<'a> Performer<'a> {
                 FinalTermSemanticPrompt::MarkEndOfInputAndStartOfOutput { .. },
             ) => {
                 self.pen.set_semantic_type(SemanticType::Output);
+                if let Some(handler) = self.alert_handler.as_mut() {
+                    handler.alert(Alert::ShellIntegrationCommandStarted);
+                }
             }
 
             OperatingSystemCommand::FinalTermSemanticPrompt(
-                FinalTermSemanticPrompt::CommandStatus { .. },
-            ) => {}
+                FinalTermSemanticPrompt::CommandStatus { status, .. },
+            ) => {
+                if let Some(handler) = self.alert_handler.as_mut() {
+                    handler.alert(Alert::ShellIntegrationCommandFinished { status });
+                }
+            }
 
             OperatingSystemCommand::SystemNotification(message) => {
                 if let Some(handler) = self.alert_handler.as_mut() {
